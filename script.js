@@ -52,6 +52,7 @@ createSparkles();
 startFireworks();
 
 
+
 if(!visualStarted){
 
 startVisualizer();
@@ -62,7 +63,6 @@ visualStarted=true;
 
 
 };
-
 
 
 
@@ -86,7 +86,8 @@ song.play();
 
 
 
-// AGE BAR
+
+// AGE PROGRESS
 
 
 song.addEventListener(
@@ -99,9 +100,8 @@ if(song.duration){
 
 let percent=
 
-song.currentTime /
-song.duration *
-100;
+(song.currentTime/song.duration)*100;
+
 
 
 progress.style.width=
@@ -120,9 +120,7 @@ percent/100*41
 
 }
 
-
 });
-
 
 
 
@@ -139,9 +137,7 @@ function createBalloons(){
 for(let i=0;i<20;i++){
 
 
-let b=
-
-document.createElement("div");
+let b=document.createElement("div");
 
 
 b.className="balloon";
@@ -177,6 +173,7 @@ document
 
 
 
+
 // SPARKLES
 
 
@@ -186,9 +183,7 @@ function createSparkles(){
 for(let i=0;i<60;i++){
 
 
-let s=
-
-document.createElement("div");
+let s=document.createElement("div");
 
 
 s.className="sparkle";
@@ -227,34 +222,24 @@ document
 
 
 const canvas=
-
 document.getElementById("fireworks");
 
 
 const ctx=
-
 canvas.getContext("2d");
 
 
-function resize(){
 
 canvas.width=
-
 innerWidth;
 
-canvas.height=
 
+canvas.height=
 innerHeight;
 
-}
 
 
-resize();
-
-window.onresize=resize;
-
-
-let fireworks=[];
+let particles=[];
 
 
 
@@ -265,12 +250,10 @@ setInterval(()=>{
 
 
 let x=
-
 Math.random()*canvas.width;
 
 
 let y=
-
 Math.random()*300;
 
 
@@ -278,17 +261,15 @@ Math.random()*300;
 for(let i=0;i<40;i++){
 
 
-fireworks.push({
+particles.push({
 
 x:x,
 
 y:y,
 
-dx:
-(Math.random()-.5)*6,
+dx:(Math.random()-.5)*6,
 
-dy:
-(Math.random()-.5)*6,
+dy:(Math.random()-.5)*6,
 
 life:80
 
@@ -302,15 +283,14 @@ life:80
 
 
 
-draw();
-
+animate();
 
 }
 
 
 
 
-function draw(){
+function animate(){
 
 
 ctx.clearRect(
@@ -322,12 +302,11 @@ canvas.height
 
 
 
-fireworks.forEach(p=>{
+particles.forEach(p=>{
 
 
 ctx.fillStyle=
-
-"yellow";
+"hsl("+Math.random()*360+",100%,50%)";
 
 
 ctx.fillRect(
@@ -336,7 +315,6 @@ p.y,
 3,
 3
 );
-
 
 
 p.x+=p.dx;
@@ -349,15 +327,18 @@ p.life--;
 });
 
 
-fireworks=
 
-fireworks.filter(
+particles=
+
+particles.filter(
 p=>p.life>0
 );
 
 
 
-requestAnimationFrame(draw);
+requestAnimationFrame(
+animate
+);
 
 
 }
@@ -374,22 +355,21 @@ requestAnimationFrame(draw);
 function startVisualizer(){
 
 
-const audio=
-
+let audio =
 new AudioContext();
 
 
-const analyser=
-
+let analyser =
 audio.createAnalyser();
 
 
-const source=
-
+let source =
 audio.createMediaElementSource(song);
 
 
+
 source.connect(analyser);
+
 
 analyser.connect(
 audio.destination
@@ -397,27 +377,22 @@ audio.destination
 
 
 
-let data=
-
+let data =
 new Uint8Array(
 analyser.frequencyBinCount
 );
 
 
 
-let box=
-
-document.getElementById(
-"visualizer"
-);
+let box =
+document.getElementById("visualizer");
 
 
 
 for(let i=0;i<30;i++){
 
 
-let bar=
-
+let bar =
 document.createElement("div");
 
 
@@ -431,7 +406,7 @@ box.appendChild(bar);
 
 
 
-function animate(){
+function draw(){
 
 
 analyser.getByteFrequencyData(data);
@@ -440,12 +415,10 @@ analyser.getByteFrequencyData(data);
 
 document
 .querySelectorAll(".bar")
-.forEach(
-(bar,i)=>{
+.forEach((bar,i)=>{
 
 
-bar.style.height=
-
+bar.style.height =
 data[i]+"px";
 
 
@@ -453,15 +426,13 @@ data[i]+"px";
 
 
 
-requestAnimationFrame(
-animate
-);
+requestAnimationFrame(draw);
 
 
 }
 
 
-animate();
+draw();
 
 
 }
