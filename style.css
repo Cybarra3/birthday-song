@@ -1,60 +1,115 @@
 body{
 
 margin:0;
-padding:0;
+overflow:hidden;
+height:100vh;
 
 display:flex;
 justify-content:center;
 align-items:center;
 
-height:100vh;
+background:linear-gradient(135deg,#ffb6e8,#ffe88b,#9be9ff);
 
-font-family:Arial, sans-serif;
-
-background:linear-gradient(
-135deg,
-#ff8ecf,
-#ffd966,
-#9fe8ff
-);
-
-overflow:hidden;
+font-family:Arial,sans-serif;
 
 }
 
 .container{
 
 text-align:center;
-
-background:white;
-
-padding:40px;
-
-border-radius:25px;
-
-box-shadow:0 10px 30px rgba(0,0,0,.25);
+z-index:2;
 
 }
 
 h1{
 
-font-size:48px;
-
-color:#ff4081;
+font-size:55px;
+color:white;
+text-shadow:3px 3px 8px black;
 
 }
 
-p{
+.cake{
 
-font-size:20px;
+margin:30px auto;
+
+}
+
+.candles{
+
+display:flex;
+justify-content:center;
+gap:25px;
+
+}
+
+.candle{
+
+width:14px;
+height:70px;
+background:white;
+position:relative;
+
+}
+
+.flame{
+
+width:18px;
+height:18px;
+
+background:orange;
+
+border-radius:50%;
+
+position:absolute;
+
+top:-20px;
+left:-2px;
+
+opacity:0;
+
+box-shadow:0 0 20px yellow;
+
+animation:flicker .2s infinite;
+
+}
+
+.lit{
+
+opacity:1;
+
+}
+
+@keyframes flicker{
+
+50%{
+
+transform:scale(.8);
+
+}
+
+}
+
+.cake-body{
+
+width:220px;
+height:120px;
+
+background:pink;
+
+border-radius:15px;
+
+margin:auto;
+
+border:8px solid hotpink;
 
 }
 
 button{
 
-font-size:28px;
+font-size:30px;
 
-padding:20px 40px;
+padding:20px 50px;
 
 border:none;
 
@@ -66,7 +121,9 @@ background:#ff4081;
 
 color:white;
 
-transition:.25s;
+box-shadow:0 0 30px hotpink;
+
+transition:.3s;
 
 }
 
@@ -74,29 +131,61 @@ button:hover{
 
 transform:scale(1.1);
 
-background:#ff1f6b;
+}
+
+.buttonWrapper{
+
+position:relative;
+
+display:inline-block;
 
 }
 
-/* Floating balloons */
-
-body::before{
-
-content:"🎈 🎉 🎂 🎁 🎈 🎊 🎂 🎉";
+.sparkle{
 
 position:absolute;
 
-font-size:70px;
+font-size:28px;
 
-top:10px;
+animation:sparkle 1.5s infinite;
 
-left:10px;
+}
 
-right:10px;
+.s1{top:-25px;left:-20px;}
+.s2{top:-20px;right:-25px;}
+.s3{bottom:-15px;left:-25px;}
+.s4{bottom:-20px;right:-20px;}
 
-text-align:center;
+@keyframes sparkle{
 
-animation:float 5s infinite alternate;
+50%{
+
+transform:scale(1.6) rotate(20deg);
+
+opacity:.4;
+
+}
+
+}
+
+#confetti{
+
+position:absolute;
+
+width:100%;
+height:100%;
+
+pointer-events:none;
+
+}
+
+.balloon{
+
+position:absolute;
+
+font-size:60px;
+
+animation:float linear infinite;
 
 }
 
@@ -104,13 +193,13 @@ animation:float 5s infinite alternate;
 
 from{
 
-transform:translateY(0px);
+transform:translateY(110vh);
 
 }
 
 to{
 
-transform:translateY(20px);
+transform:translateY(-150px);
 
 }
 
