@@ -2,12 +2,28 @@ const song =
 document.getElementById("song");
 
 
-const button =
+const playButton =
 document.getElementById("play");
 
 
+const pauseButton =
+document.getElementById("pauseSong");
 
-button.onclick=()=>{
+
+const resumeButton =
+document.getElementById("resumeSong");
+
+
+const progressBar =
+document.getElementById("progressBar");
+
+
+const ageNumber =
+document.getElementById("ageNumber");
+
+
+
+playButton.onclick=()=>{
 
 
 song.play();
@@ -15,8 +31,8 @@ song.play();
 
 document
 .querySelectorAll(".flame")
-.forEach(f=>
-f.classList.add("lit")
+.forEach(
+f=>f.classList.add("lit")
 );
 
 
@@ -29,23 +45,104 @@ startFireworks();
 startVisualizer();
 
 
-button.innerHTML=
-"🎵 Birthday Party Started!";
+playButton.innerHTML=
+"🎵 Playing Birthday Song";
 
 
 };
 
 
 
-//////////////////////////////////////////////////////
+
+
+pauseButton.onclick=()=>{
+
+
+song.pause();
+
+
+pauseButton.innerHTML="🎁⏸️";
+
+
+};
+
+
+
+
+resumeButton.onclick=()=>{
+
+
+song.play();
+
+
+resumeButton.innerHTML="🎁▶️";
+
+
+};
+
+
+
+
+
+
+//////////////////////////////////////////////////
+// AGE PROGRESS 0-41
+//////////////////////////////////////////////////
+
+
+song.addEventListener(
+"timeupdate",
+()=>{
+
+
+if(song.duration){
+
+
+let percent=
+
+(song.currentTime/song.duration)*100;
+
+
+
+progressBar.style.width=
+
+percent+"%";
+
+
+
+let age=
+
+Math.floor(
+(song.currentTime/song.duration)*41
+);
+
+
+
+ageNumber.innerHTML=
+
+age;
+
+
+}
+
+
+});
+
+
+
+
+
+
+
+//////////////////////////////////////////////////
 // BALLOONS
-//////////////////////////////////////////////////////
+//////////////////////////////////////////////////
 
 
 function createBalloons(){
 
 
-for(let i=0;i<25;i++){
+for(let i=0;i<30;i++){
 
 
 let b=document.createElement("div");
@@ -54,20 +151,19 @@ let b=document.createElement("div");
 b.className="balloon";
 
 
-b.innerHTML=
-["🎈","🎈","🎈","🎁"][Math.floor(Math.random()*4)];
+b.innerHTML="🎈";
 
 
 b.style.left=
+
 Math.random()*100+"vw";
 
 
 b.style.animationDuration=
-(6+Math.random()*8)+"s";
 
-
-b.style.animationDelay=
-Math.random()*5+"s";
+6+
+Math.random()*8
++"s";
 
 
 document
@@ -75,19 +171,18 @@ document
 .appendChild(b);
 
 
+}
+
 
 }
 
 
 
-}
 
 
-
-
-//////////////////////////////////////////////////////
+//////////////////////////////////////////////////
 // SPARKLES
-//////////////////////////////////////////////////////
+//////////////////////////////////////////////////
 
 
 function createSparkles(){
@@ -105,15 +200,13 @@ s.innerHTML="✨";
 
 
 s.style.left=
+
 Math.random()*100+"vw";
 
 
 s.style.top=
+
 Math.random()*100+"vh";
-
-
-s.style.animationDelay=
-Math.random()*3+"s";
 
 
 document
@@ -129,28 +222,32 @@ document
 
 
 
-//////////////////////////////////////////////////////
-// FIREWORKS CANVAS
-//////////////////////////////////////////////////////
+
+
+
+//////////////////////////////////////////////////
+// FIREWORKS
+//////////////////////////////////////////////////
 
 
 const canvas=
+
 document.getElementById("fireworks");
 
 
 const ctx=
+
 canvas.getContext("2d");
 
 
-canvas.width=
-innerWidth;
+canvas.width=innerWidth;
 
-canvas.height=
-innerHeight;
+canvas.height=innerHeight;
 
 
 
 let particles=[];
+
 
 
 
@@ -161,11 +258,13 @@ setInterval(()=>{
 
 
 let x=
+
 Math.random()*canvas.width;
 
 
 let y=
-Math.random()*canvas.height/2;
+
+Math.random()*300;
 
 
 
@@ -178,13 +277,12 @@ x:x,
 
 y:y,
 
-dx:
-(Math.random()-.5)*8,
+dx:(Math.random()-.5)*8,
 
-dy:
-(Math.random()-.5)*8,
+dy:(Math.random()-.5)*8,
 
 life:100
+
 
 });
 
@@ -196,14 +294,15 @@ life:100
 },1200);
 
 
-animateFireworks();
+
+animate();
 
 
 }
 
 
 
-function animateFireworks(){
+function animate(){
 
 
 ctx.clearRect(
@@ -219,16 +318,16 @@ particles.forEach(p=>{
 
 
 ctx.fillStyle=
+
 `hsl(${Math.random()*360},100%,50%)`;
 
 
 ctx.fillRect(
 p.x,
 p.y,
-4,
-4
+5,
+5
 );
-
 
 
 p.x+=p.dx;
@@ -243,13 +342,15 @@ p.life--;
 
 
 particles=
+
 particles.filter(
 p=>p.life>0
 );
 
 
+
 requestAnimationFrame(
-animateFireworks
+animate
 );
 
 
@@ -257,27 +358,36 @@ animateFireworks
 
 
 
-//////////////////////////////////////////////////////
+
+
+
+
+
+//////////////////////////////////////////////////
 // MUSIC VISUALIZER
-//////////////////////////////////////////////////////
+//////////////////////////////////////////////////
 
 
 function startVisualizer(){
 
 
 let audio=
+
 new AudioContext();
 
 
 let analyser=
+
 audio.createAnalyser();
 
 
 let source=
+
 audio.createMediaElementSource(song);
 
 
 source.connect(analyser);
+
 
 analyser.connect(
 audio.destination
@@ -286,6 +396,7 @@ audio.destination
 
 
 let data=
+
 new Uint8Array(
 analyser.frequencyBinCount
 );
@@ -293,6 +404,7 @@ analyser.frequencyBinCount
 
 
 let visualizer=
+
 document.getElementById(
 "visualizer"
 );
@@ -301,18 +413,23 @@ document.getElementById(
 
 for(let i=0;i<40;i++){
 
+
 let bar=
+
 document.createElement("div");
+
 
 bar.className="bar";
 
+
 visualizer.appendChild(bar);
+
 
 }
 
 
 
-function animate(){
+function draw(){
 
 
 analyser.getByteFrequencyData(data);
@@ -324,21 +441,20 @@ document
 
 
 bar.style.height=
-data[i]*.5+"px";
+
+data[i]+"px";
 
 
 });
 
 
-requestAnimationFrame(
-animate
-);
+requestAnimationFrame(draw);
 
 
 }
 
 
-animate();
+draw();
 
 
 }
