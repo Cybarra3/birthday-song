@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" viewBox="0 0 500 500">
+
+  <rect x="120" y="320" width="260" height="90" rx="18" fill="#ff8bb8"></rect>
+  <rect x="150" y="230" width="200" height="90" rx="18" fill="#ffb6d2"></rect>
+  <rect x="180" y="150" width="140" height="80" rx="18" fill="#ffd7e8"></rect>
+
+  <path d="M120 320
+           Q130 340 140 320
+           Q150 340 160 320
+           Q170 340 180 320
+           Q190 340 200 320
+           Q210 340 220 320
+           Q230 340 240 320
+           Q250 340 260 320
+           Q270 340 280 320
+           Q290 340 300 320
+           Q310 340 320 320
+           Q330 340 340 320
+           Q350 340 360 320
+           Q370 340 380 320" fill="white"></path>
+
+  <rect x="210" y="105" width="10" height="45" fill="#8ecaff"></rect>
+  <rect x="245" y="105" width="10" height="45" fill="#9cff7f"></rect>
+  <rect x="280" y="105" width="10" height="45" fill="#ffef70"></rect>
+
+  <ellipse cx="215" cy="95" rx="8" ry="16" fill="orange"></ellipse>
+  <ellipse cx="250" cy="95" rx="8" ry="16" fill="orange"></ellipse>
+  <ellipse cx="285" cy="95" rx="8" ry="16" fill="orange"></ellipse>
+
+</svg>
