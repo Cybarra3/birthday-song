@@ -1,120 +1,344 @@
-const button=document.getElementById("playButton");
-const song=document.getElementById("birthdaySong");
+const song =
+document.getElementById("song");
+
+
+const button =
+document.getElementById("play");
+
+
 
 button.onclick=()=>{
 
+
 song.play();
 
-button.innerHTML="🎵 Playing...";
 
-button.disabled=true;
+document
+.querySelectorAll(".flame")
+.forEach(f=>
+f.classList.add("lit")
+);
 
-// light candles
-document.querySelectorAll(".flame").forEach(f=>{
-f.classList.add("lit");
-});
 
-launchConfetti();
+createBalloons();
+
+createSparkles();
+
+startFireworks();
+
+startVisualizer();
+
+
+button.innerHTML=
+"🎵 Birthday Party Started!";
+
 
 };
 
-////////////////////////////////////////////////
-// Balloons
-////////////////////////////////////////////////
 
-const balloonArea=document.getElementById("balloons");
 
-const emojis=["🎈","🎈","🎈","🎉","🎁"];
+//////////////////////////////////////////////////////
+// BALLOONS
+//////////////////////////////////////////////////////
 
-setInterval(()=>{
 
-const b=document.createElement("div");
+function createBalloons(){
+
+
+for(let i=0;i<25;i++){
+
+
+let b=document.createElement("div");
+
 
 b.className="balloon";
 
-b.innerHTML=emojis[Math.floor(Math.random()*emojis.length)];
 
-b.style.left=Math.random()*100+"vw";
+b.innerHTML=
+["🎈","🎈","🎈","🎁"][Math.floor(Math.random()*4)];
 
-b.style.animationDuration=6+Math.random()*6+"s";
 
-balloonArea.appendChild(b);
+b.style.left=
+Math.random()*100+"vw";
 
-setTimeout(()=>b.remove(),12000);
 
-},600);
+b.style.animationDuration=
+(6+Math.random()*8)+"s";
 
-////////////////////////////////////////////////
-// Confetti
-////////////////////////////////////////////////
 
-const canvas=document.getElementById("confetti");
-const ctx=canvas.getContext("2d");
+b.style.animationDelay=
+Math.random()*5+"s";
 
-canvas.width=window.innerWidth;
-canvas.height=window.innerHeight;
 
-let pieces=[];
+document
+.getElementById("balloons")
+.appendChild(b);
 
-function launchConfetti(){
 
-pieces=[];
 
-for(let i=0;i<250;i++){
+}
 
-pieces.push({
 
-x:canvas.width/2,
 
-y:canvas.height/2,
+}
 
-dx:(Math.random()-.5)*12,
 
-dy:(Math.random()-.5)*12,
 
-size:4+Math.random()*6,
 
-color:`hsl(${Math.random()*360},100%,50%)`
+//////////////////////////////////////////////////////
+// SPARKLES
+//////////////////////////////////////////////////////
+
+
+function createSparkles(){
+
+
+for(let i=0;i<200;i++){
+
+
+let s=document.createElement("div");
+
+
+s.className="sparkle";
+
+s.innerHTML="✨";
+
+
+s.style.left=
+Math.random()*100+"vw";
+
+
+s.style.top=
+Math.random()*100+"vh";
+
+
+s.style.animationDelay=
+Math.random()*3+"s";
+
+
+document
+.getElementById("sparkles")
+.appendChild(s);
+
+
+}
+
+
+}
+
+
+
+
+//////////////////////////////////////////////////////
+// FIREWORKS CANVAS
+//////////////////////////////////////////////////////
+
+
+const canvas=
+document.getElementById("fireworks");
+
+
+const ctx=
+canvas.getContext("2d");
+
+
+canvas.width=
+innerWidth;
+
+canvas.height=
+innerHeight;
+
+
+
+let particles=[];
+
+
+
+function startFireworks(){
+
+
+setInterval(()=>{
+
+
+let x=
+Math.random()*canvas.width;
+
+
+let y=
+Math.random()*canvas.height/2;
+
+
+
+for(let i=0;i<80;i++){
+
+
+particles.push({
+
+x:x,
+
+y:y,
+
+dx:
+(Math.random()-.5)*8,
+
+dy:
+(Math.random()-.5)*8,
+
+life:100
 
 });
 
-}
-
-animate();
 
 }
 
-function animate(){
 
-ctx.clearRect(0,0,canvas.width,canvas.height);
 
-pieces.forEach(p=>{
+},1200);
 
-ctx.fillStyle=p.color;
 
-ctx.fillRect(p.x,p.y,p.size,p.size);
+animateFireworks();
+
+
+}
+
+
+
+function animateFireworks(){
+
+
+ctx.clearRect(
+0,
+0,
+canvas.width,
+canvas.height
+);
+
+
+
+particles.forEach(p=>{
+
+
+ctx.fillStyle=
+`hsl(${Math.random()*360},100%,50%)`;
+
+
+ctx.fillRect(
+p.x,
+p.y,
+4,
+4
+);
+
+
 
 p.x+=p.dx;
 
 p.y+=p.dy;
 
-p.dy+=0.15;
+p.life--;
+
 
 });
 
-pieces=pieces.filter(p=>p.y<canvas.height+20);
 
-if(pieces.length){
 
-requestAnimationFrame(animate);
+particles=
+particles.filter(
+p=>p.life>0
+);
+
+
+requestAnimationFrame(
+animateFireworks
+);
+
 
 }
 
+
+
+//////////////////////////////////////////////////////
+// MUSIC VISUALIZER
+//////////////////////////////////////////////////////
+
+
+function startVisualizer(){
+
+
+let audio=
+new AudioContext();
+
+
+let analyser=
+audio.createAnalyser();
+
+
+let source=
+audio.createMediaElementSource(song);
+
+
+source.connect(analyser);
+
+analyser.connect(
+audio.destination
+);
+
+
+
+let data=
+new Uint8Array(
+analyser.frequencyBinCount
+);
+
+
+
+let visualizer=
+document.getElementById(
+"visualizer"
+);
+
+
+
+for(let i=0;i<40;i++){
+
+let bar=
+document.createElement("div");
+
+bar.className="bar";
+
+visualizer.appendChild(bar);
+
 }
 
-window.onresize=()=>{
 
-canvas.width=window.innerWidth;
-canvas.height=window.innerHeight;
 
-};
+function animate(){
+
+
+analyser.getByteFrequencyData(data);
+
+
+document
+.querySelectorAll(".bar")
+.forEach((bar,i)=>{
+
+
+bar.style.height=
+data[i]*.5+"px";
+
+
+});
+
+
+requestAnimationFrame(
+animate
+);
+
+
+}
+
+
+animate();
+
+
+}
