@@ -2,31 +2,39 @@ const song =
 document.getElementById("song");
 
 
-const playButton =
+const play =
 document.getElementById("play");
 
 
-const pauseButton =
-document.getElementById("pauseSong");
+const pause =
+document.getElementById("pause");
 
 
-const resumeButton =
-document.getElementById("resumeSong");
+const resume =
+document.getElementById("resume");
 
 
-const progressBar =
-document.getElementById("progressBar");
+const progress =
+document.getElementById("progress");
 
 
-const ageNumber =
-document.getElementById("ageNumber");
+const age =
+document.getElementById("age");
 
 
 
-playButton.onclick=()=>{
+let visualStarted=false;
+
+
+
+play.onclick=()=>{
+
+
+song.currentTime=0;
 
 
 song.play();
+
 
 
 document
@@ -36,17 +44,21 @@ f=>f.classList.add("lit")
 );
 
 
+
 createBalloons();
 
 createSparkles();
 
 startFireworks();
 
+
+if(!visualStarted){
+
 startVisualizer();
 
+visualStarted=true;
 
-playButton.innerHTML=
-"🎵 Playing Birthday Song";
+}
 
 
 };
@@ -55,29 +67,18 @@ playButton.innerHTML=
 
 
 
-pauseButton.onclick=()=>{
-
+pause.onclick=()=>{
 
 song.pause();
 
-
-pauseButton.innerHTML="🎁⏸️";
-
-
 };
 
 
 
-
-resumeButton.onclick=()=>{
-
+resume.onclick=()=>{
 
 song.play();
 
-
-resumeButton.innerHTML="🎁▶️";
-
-
 };
 
 
@@ -85,9 +86,7 @@ resumeButton.innerHTML="🎁▶️";
 
 
 
-//////////////////////////////////////////////////
-// AGE PROGRESS 0-41
-//////////////////////////////////////////////////
+// AGE BAR
 
 
 song.addEventListener(
@@ -100,27 +99,23 @@ if(song.duration){
 
 let percent=
 
-(song.currentTime/song.duration)*100;
+song.currentTime /
+song.duration *
+100;
 
 
-
-progressBar.style.width=
+progress.style.width=
 
 percent+"%";
 
 
 
-let age=
+age.innerHTML=
 
 Math.floor(
-(song.currentTime/song.duration)*41
+percent/100*41
 );
 
-
-
-ageNumber.innerHTML=
-
-age;
 
 
 }
@@ -134,18 +129,19 @@ age;
 
 
 
-//////////////////////////////////////////////////
+
 // BALLOONS
-//////////////////////////////////////////////////
 
 
 function createBalloons(){
 
 
-for(let i=0;i<30;i++){
+for(let i=0;i<20;i++){
 
 
-let b=document.createElement("div");
+let b=
+
+document.createElement("div");
 
 
 b.className="balloon";
@@ -162,8 +158,8 @@ Math.random()*100+"vw";
 b.style.animationDuration=
 
 6+
-Math.random()*8
-+"s";
+Math.random()*8+
+"s";
 
 
 document
@@ -180,21 +176,23 @@ document
 
 
 
-//////////////////////////////////////////////////
+
 // SPARKLES
-//////////////////////////////////////////////////
 
 
 function createSparkles(){
 
 
-for(let i=0;i<200;i++){
+for(let i=0;i<60;i++){
 
 
-let s=document.createElement("div");
+let s=
+
+document.createElement("div");
 
 
 s.className="sparkle";
+
 
 s.innerHTML="✨";
 
@@ -225,9 +223,7 @@ document
 
 
 
-//////////////////////////////////////////////////
 // FIREWORKS
-//////////////////////////////////////////////////
 
 
 const canvas=
@@ -240,14 +236,25 @@ const ctx=
 canvas.getContext("2d");
 
 
-canvas.width=innerWidth;
+function resize(){
 
-canvas.height=innerHeight;
+canvas.width=
+
+innerWidth;
+
+canvas.height=
+
+innerHeight;
+
+}
 
 
+resize();
 
-let particles=[];
+window.onresize=resize;
 
+
+let fireworks=[];
 
 
 
@@ -268,21 +275,22 @@ Math.random()*300;
 
 
 
-for(let i=0;i<80;i++){
+for(let i=0;i<40;i++){
 
 
-particles.push({
+fireworks.push({
 
 x:x,
 
 y:y,
 
-dx:(Math.random()-.5)*8,
+dx:
+(Math.random()-.5)*6,
 
-dy:(Math.random()-.5)*8,
+dy:
+(Math.random()-.5)*6,
 
-life:100
-
+life:80
 
 });
 
@@ -290,19 +298,19 @@ life:100
 }
 
 
-
-},1200);
-
+},1500);
 
 
-animate();
+
+draw();
 
 
 }
 
 
 
-function animate(){
+
+function draw(){
 
 
 ctx.clearRect(
@@ -314,20 +322,21 @@ canvas.height
 
 
 
-particles.forEach(p=>{
+fireworks.forEach(p=>{
 
 
 ctx.fillStyle=
 
-`hsl(${Math.random()*360},100%,50%)`;
+"yellow";
 
 
 ctx.fillRect(
 p.x,
 p.y,
-5,
-5
+3,
+3
 );
+
 
 
 p.x+=p.dx;
@@ -340,18 +349,15 @@ p.life--;
 });
 
 
+fireworks=
 
-particles=
-
-particles.filter(
+fireworks.filter(
 p=>p.life>0
 );
 
 
 
-requestAnimationFrame(
-animate
-);
+requestAnimationFrame(draw);
 
 
 }
@@ -362,32 +368,28 @@ animate
 
 
 
-
-//////////////////////////////////////////////////
-// MUSIC VISUALIZER
-//////////////////////////////////////////////////
+// VISUALIZER
 
 
 function startVisualizer(){
 
 
-let audio=
+const audio=
 
 new AudioContext();
 
 
-let analyser=
+const analyser=
 
 audio.createAnalyser();
 
 
-let source=
+const source=
 
 audio.createMediaElementSource(song);
 
 
 source.connect(analyser);
-
 
 analyser.connect(
 audio.destination
@@ -403,7 +405,7 @@ analyser.frequencyBinCount
 
 
 
-let visualizer=
+let box=
 
 document.getElementById(
 "visualizer"
@@ -411,7 +413,7 @@ document.getElementById(
 
 
 
-for(let i=0;i<40;i++){
+for(let i=0;i<30;i++){
 
 
 let bar=
@@ -422,22 +424,24 @@ document.createElement("div");
 bar.className="bar";
 
 
-visualizer.appendChild(bar);
+box.appendChild(bar);
 
 
 }
 
 
 
-function draw(){
+function animate(){
 
 
 analyser.getByteFrequencyData(data);
 
 
+
 document
 .querySelectorAll(".bar")
-.forEach((bar,i)=>{
+.forEach(
+(bar,i)=>{
 
 
 bar.style.height=
@@ -448,13 +452,16 @@ data[i]+"px";
 });
 
 
-requestAnimationFrame(draw);
+
+requestAnimationFrame(
+animate
+);
 
 
 }
 
 
-draw();
+animate();
 
 
 }
