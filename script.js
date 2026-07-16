@@ -29,6 +29,7 @@ let fireworksStarted=false;
 
 
 
+
 play.onclick=()=>{
 
 
@@ -37,8 +38,8 @@ song.play();
 
 document
 .querySelectorAll(".flame")
-.forEach(f=>
-f.classList.add("lit")
+.forEach(
+f=>f.classList.add("lit")
 );
 
 
@@ -46,7 +47,6 @@ f.classList.add("lit")
 createBalloons();
 
 createSparkles();
-
 
 
 if(!fireworksStarted){
@@ -72,10 +72,20 @@ startVisualizer();
 
 
 
-pause.onclick=()=>song.pause();
+
+pause.onclick=()=>{
+
+song.pause();
+
+};
 
 
-resume.onclick=()=>song.play();
+
+resume.onclick=()=>{
+
+song.play();
+
+};
 
 
 
@@ -88,14 +98,17 @@ song.addEventListener(
 
 
 let percent=
+
 (song.currentTime/song.duration)*100;
 
 
 progress.style.width=
+
 percent+"%";
 
 
 age.innerHTML=
+
 Math.floor(
 percent/100*41
 );
@@ -115,15 +128,14 @@ song.addEventListener(
 
 age.innerHTML="41";
 
-
 progress.style.width="100%";
 
 
 
 document
 .querySelectorAll(".flame")
-.forEach(f=>
-f.classList.remove("lit")
+.forEach(
+f=>f.classList.remove("lit")
 );
 
 
@@ -139,8 +151,8 @@ megaFireworks();
 createConfetti();
 
 
-
 });
+
 
 
 
@@ -164,11 +176,13 @@ b.innerHTML="🎈";
 
 
 b.style.left=
+
 Math.random()*100+"vw";
 
 
 b.style.animationDuration=
-(6+Math.random()*6)+"s";
+
+(6+Math.random()*8)+"s";
 
 
 document
@@ -178,8 +192,9 @@ document
 
 }
 
-
 }
+
+
 
 
 
@@ -196,14 +211,17 @@ let s=document.createElement("div");
 
 s.className="sparkle";
 
+
 s.innerHTML="✨";
 
 
 s.style.left=
+
 Math.random()*100+"vw";
 
 
 s.style.top=
+
 Math.random()*100+"vh";
 
 
@@ -240,15 +258,12 @@ let particles=[];
 
 
 
-
 function startFireworks(){
 
 
 setInterval(()=>{
 
-
 burst();
-
 
 },1500);
 
@@ -263,16 +278,13 @@ animate();
 function burst(){
 
 
-let x=
-Math.random()*canvas.width;
+let x=Math.random()*canvas.width;
 
-
-let y=
-Math.random()*300;
+let y=Math.random()*300;
 
 
 
-for(let i=0;i<50;i++){
+for(let i=0;i<60;i++){
 
 
 particles.push({
@@ -287,6 +299,7 @@ dy:(Math.random()-.5)*8,
 
 life:100
 
+
 });
 
 
@@ -297,21 +310,29 @@ life:100
 
 
 
+
 function megaFireworks(){
 
 
-for(let i=0;i<8;i++){
+for(let i=0;i<10;i++){
 
 
 setTimeout(
+
 burst,
-i*400
+
+i*300
+
 );
 
 
 }
 
+
 }
+
+
+
 
 
 
@@ -320,10 +341,15 @@ function animate(){
 
 
 ctx.clearRect(
+
 0,
+
 0,
+
 canvas.width,
+
 canvas.height
+
 );
 
 
@@ -335,16 +361,22 @@ ctx.fillStyle="yellow";
 
 
 ctx.fillRect(
+
 p.x,
+
 p.y,
+
 4,
+
 4
+
 );
 
 
 p.x+=p.dx;
 
 p.y+=p.dy;
+
 
 p.life--;
 
@@ -354,6 +386,7 @@ p.life--;
 
 
 particles=
+
 particles.filter(
 p=>p.life>0
 );
@@ -386,14 +419,17 @@ c.className="confetti";
 
 
 c.style.left=
+
 Math.random()*100+"vw";
 
 
 c.style.background=
+
 "hsl("+Math.random()*360+",100%,50%)";
 
 
 c.style.animationDuration=
+
 (3+Math.random()*4)+"s";
 
 
@@ -406,6 +442,8 @@ document
 
 
 }
+
+
 
 
 
@@ -428,6 +466,7 @@ audio.createMediaElementSource(song);
 
 source.connect(analyser);
 
+
 analyser.connect(
 audio.destination
 );
@@ -435,6 +474,7 @@ audio.destination
 
 
 let data=
+
 new Uint8Array(
 analyser.frequencyBinCount
 );
@@ -446,17 +486,21 @@ document.getElementById("visualizer");
 
 
 
-for(let i=0;i<30;i++){
+for(let i=0;i<40;i++){
 
 
 let bar=document.createElement("div");
 
+
 bar.className="bar";
+
 
 box.appendChild(bar);
 
 
 }
+
+
 
 
 
@@ -469,14 +513,16 @@ analyser.getByteFrequencyData(data);
 
 document
 .querySelectorAll(".bar")
-.forEach((b,i)=>{
+.forEach((bar,i)=>{
 
 
-b.style.height=
-data[i]+"px";
+bar.style.height=
+
+Math.max(5,data[i]/2)+"px";
 
 
 });
+
 
 
 requestAnimationFrame(draw);
