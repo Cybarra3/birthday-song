@@ -1,84 +1,134 @@
-*{
-box-sizing:border-box;
+* {
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
+}
+
+
+html,body{
+
+    width:100%;
+    height:100%;
+
+    margin:0;
+
+    overflow:hidden;
+
+    position:fixed;
+
+    font-family:Arial,sans-serif;
+
 }
 
 
 body{
 
-margin:0;
+    display:flex;
 
-height:100vh;
+    justify-content:center;
 
-overflow:hidden;
+    align-items:center;
 
-display:flex;
-
-justify-content:center;
-
-align-items:center;
-
-font-family:Arial,sans-serif;
-
-
-background:
-
-linear-gradient(
-135deg,
-#ff9bd2,
-#ffe681,
-#91ddff
-);
-
+    background:
+    linear-gradient(
+    135deg,
+    #ff9bd2,
+    #ffe681,
+    #91ddff
+    );
 
 }
 
 
+
+/* FIREWORKS BACKGROUND */
+
+#fireworks{
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:1;
+
+    pointer-events:none;
+
+}
+
+
+
+/* EFFECT LAYERS */
+
+
+#sparkles{
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:2;
+
+    pointer-events:none;
+
+}
+
+
+#balloons{
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:3;
+
+    pointer-events:none;
+
+}
+
+
+
+
+/* MAIN CONTENT */
 
 .birthday{
 
-text-align:center;
+    position:relative;
 
-z-index:5;
+    z-index:10;
+
+    width:100%;
+
+    max-width:600px;
+
+    padding:20px;
+
+    text-align:center;
 
 }
+
 
 
 
 h1{
 
-font-size:50px;
+    font-size:clamp(32px,8vw,55px);
 
-color:white;
+    color:white;
 
-text-shadow:
-
-0 5px 10px black;
-
-}
-
-
-
-#fireworks{
-
-position:absolute;
-
-width:100%;
-
-height:100%;
+    text-shadow:
+    2px 3px 8px #555;
 
 }
 
+
+
+/* CAKE */
 
 
 .cake{
 
-margin:35px auto;
+    margin:20px auto;
 
-filter:
-
-drop-shadow(
-0 20px 20px rgba(0,0,0,.3)
-);
+    transform:scale(.85);
 
 }
 
@@ -86,25 +136,24 @@ drop-shadow(
 
 .candles{
 
-display:flex;
+    display:flex;
 
-justify-content:center;
+    justify-content:center;
 
-gap:25px;
+    gap:20px;
 
 }
 
 
-
 .candle{
 
-width:15px;
+    width:14px;
 
-height:70px;
+    height:65px;
 
-background:white;
+    background:white;
 
-position:relative;
+    position:relative;
 
 }
 
@@ -112,45 +161,43 @@ position:relative;
 
 .flame{
 
-position:absolute;
+    position:absolute;
 
-top:-35px;
+    top:-30px;
 
-left:-2px;
+    left:-3px;
 
-width:20px;
+    width:20px;
 
-height:30px;
+    height:30px;
 
-background:orange;
+    background:#ff9900;
 
-border-radius:50%;
+    border-radius:50%;
 
-opacity:0;
+    opacity:0;
 
-box-shadow:
+    box-shadow:
 
-0 0 30px yellow;
+    0 0 25px yellow;
 
 }
-
 
 
 .flame.lit{
 
-opacity:1;
+    opacity:1;
 
-animation:flicker .15s infinite;
+    animation:flicker .2s infinite;
 
 }
-
 
 
 @keyframes flicker{
 
 50%{
 
-transform:scale(.8);
+transform:scale(.75);
 
 }
 
@@ -161,125 +208,116 @@ transform:scale(.8);
 
 .layer{
 
-position:relative;
+    margin:auto;
 
-margin:auto;
+    position:relative;
 
-border-radius:25px;
+    border-radius:20px;
 
 }
-
 
 
 .top{
 
-height:70px;
+    width:160px;
 
-width:170px;
+    height:65px;
 
-background:#fff0f7;
+    background:#fff0f7;
 
 }
-
 
 
 .middle{
 
-height:90px;
+    width:220px;
 
-width:230px;
+    height:80px;
 
-background:#ff9ecb;
+    background:#ff9ecb;
 
 }
-
 
 
 .bottom{
 
-height:110px;
+    width:270px;
 
-width:290px;
+    height:95px;
 
-background:#ff6fa8;
+    background:#ff6fa8;
 
 }
+
 
 
 
 .drip{
 
-position:absolute;
+    position:absolute;
 
-top:0;
+    top:0;
 
-width:100%;
+    height:25px;
 
-height:30px;
+    width:100%;
 
-background:white;
+    background:white;
 
-border-radius:
-
-0 0 40px 40px;
+    border-radius:0 0 40px 40px;
 
 }
 
 
 
-
-
-button{
-
-
-border:none;
-
-cursor:pointer;
-
-}
-
+/* START BUTTON */
 
 
 #play{
 
+    position:relative;
 
-font-size:28px;
+    z-index:20;
 
-padding:20px 45px;
+    margin-top:15px;
 
-border-radius:50px;
+    font-size:22px;
 
-background:#ff4081;
+    padding:18px 30px;
 
-color:white;
+    border-radius:50px;
 
-box-shadow:
+    background:#ff4081;
 
-0 0 30px pink;
+    color:white;
 
 }
 
+
+
+
+
+/* MUSIC */
 
 
 .musicControls{
 
-margin-top:20px;
+    position:relative;
+
+    z-index:30;
+
+    margin-top:15px;
 
 }
 
 
-
 .ageCounter{
 
-font-size:32px;
+    font-size:30px;
 
-font-weight:bold;
+    color:white;
 
-color:white;
-
-text-shadow:
-
-2px 2px 5px black;
+    font-weight:bold;
 
 }
 
@@ -287,21 +325,19 @@ text-shadow:
 
 .progressContainer{
 
-height:25px;
+    height:22px;
 
-width:90%;
+    width:95%;
 
-max-width:500px;
+    max-width:450px;
 
-background:white;
+    margin:10px auto;
 
-margin:15px auto;
+    background:white;
 
-border-radius:20px;
+    border-radius:20px;
 
-overflow:hidden;
-
-border:3px solid white;
+    overflow:hidden;
 
 }
 
@@ -309,30 +345,38 @@ border:3px solid white;
 
 #progressBar{
 
-height:100%;
+    height:100%;
 
-width:0%;
+    width:0%;
 
-background:
+    background:
 
-linear-gradient(
-90deg,
-#00ff88,
-#00c8ff,
-#ff4fa3
-);
+    linear-gradient(
+    90deg,
+    #00ff88,
+    #00c8ff,
+    #ff4fa3
+    );
 
 }
 
 
 
+
+/* PRESENT BUTTONS */
+
+
 .giftControls{
 
-display:flex;
+    position:relative;
 
-justify-content:center;
+    z-index:50;
 
-gap:30px;
+    display:flex;
+
+    justify-content:center;
+
+    gap:35px;
 
 }
 
@@ -340,13 +384,23 @@ gap:30px;
 
 .giftControls button{
 
-font-size:45px;
+    position:relative;
 
-width:90px;
+    z-index:60;
 
-height:90px;
+    width:75px;
 
-border-radius:25px;
+    height:75px;
+
+    font-size:38px;
+
+    border-radius:20px;
+
+    border:none;
+
+    box-shadow:
+
+    0 5px 15px rgba(0,0,0,.3);
 
 }
 
@@ -354,7 +408,7 @@ border-radius:25px;
 
 #pauseSong{
 
-background:#2196f3;
+    background:#2196f3;
 
 }
 
@@ -362,21 +416,27 @@ background:#2196f3;
 
 #resumeSong{
 
-background:#4caf50;
+    background:#4caf50;
 
 }
 
 
 
 
+/* BALLOONS */
+
 
 .balloon{
 
-position:absolute;
+    position:absolute;
 
-font-size:70px;
+    font-size:60px;
 
-animation:float linear infinite;
+    will-change:transform;
+
+    animation:
+
+    float linear infinite;
 
 }
 
@@ -384,11 +444,12 @@ animation:float linear infinite;
 
 @keyframes float{
 
+
 from{
 
 transform:
 translateY(110vh)
-rotate(-10deg);
+rotate(-8deg);
 
 }
 
@@ -397,21 +458,29 @@ to{
 
 transform:
 translateY(-150px)
-rotate(10deg);
+rotate(8deg);
 
 }
 
+
 }
 
+
+
+/* SPARKLES */
 
 
 .sparkle{
 
-position:absolute;
+    position:absolute;
 
-font-size:25px;
+    font-size:20px;
 
-animation:twinkle 2s infinite;
+    animation:
+
+    twinkle 2s infinite;
+
+    will-change:transform;
 
 }
 
@@ -424,36 +493,39 @@ animation:twinkle 2s infinite;
 
 opacity:.2;
 
-transform:scale(2);
+transform:scale(1.5);
 
 }
 
 }
 
+
+
+
+/* VISUALIZER */
 
 
 #visualizer{
 
-display:flex;
+    height:45px;
 
-height:60px;
+    display:flex;
 
-justify-content:center;
+    justify-content:center;
 
-align-items:end;
+    align-items:end;
 
-gap:4px;
+    gap:3px;
 
 }
 
 
-
 .bar{
 
-width:8px;
+    width:5px;
 
-background:white;
+    background:white;
 
-border-radius:5px;
+    border-radius:5px;
 
 }
