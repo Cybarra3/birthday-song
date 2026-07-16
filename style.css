@@ -12,8 +12,6 @@ body{
 
 margin:0;
 
-padding:0;
-
 width:100%;
 
 height:100%;
@@ -30,13 +28,11 @@ font-family:Arial,sans-serif;
 
 body{
 
-
 display:flex;
 
 justify-content:center;
 
 align-items:center;
-
 
 background:
 
@@ -47,8 +43,8 @@ linear-gradient(
 #91ddff
 );
 
-
 }
+
 
 
 
@@ -63,7 +59,6 @@ z-index:1;
 pointer-events:none;
 
 }
-
 
 
 #balloons{
@@ -94,8 +89,8 @@ pointer-events:none;
 
 
 
-.birthday{
 
+.birthday{
 
 position:relative;
 
@@ -113,6 +108,7 @@ text-align:center;
 
 
 
+
 h1{
 
 font-size:
@@ -123,10 +119,9 @@ color:white;
 
 text-shadow:
 
-2px 3px 8px #555;
+2px 3px 8px black;
 
 }
-
 
 
 
@@ -141,7 +136,7 @@ margin:25px auto;
 filter:
 
 drop-shadow(
-0 20px 20px rgba(0,0,0,.35)
+0 20px 20px rgba(0,0,0,.3)
 );
 
 }
@@ -154,7 +149,7 @@ display:flex;
 
 justify-content:center;
 
-gap:22px;
+gap:20px;
 
 }
 
@@ -162,9 +157,9 @@ gap:22px;
 
 .candle{
 
-width:14px;
-
 height:60px;
+
+width:14px;
 
 background:white;
 
@@ -176,11 +171,11 @@ position:relative;
 
 .flame{
 
-position:absolute;
-
 width:20px;
 
 height:30px;
+
+position:absolute;
 
 top:-30px;
 
@@ -206,22 +201,23 @@ opacity:1;
 
 animation:
 
-flame .2s infinite;
+flicker .2s infinite;
 
 }
 
 
 
-@keyframes flame{
+@keyframes flicker{
 
 
 50%{
 
-transform:scale(.7);
+transform:scale(.75);
 
 }
 
 }
+
 
 
 
@@ -237,9 +233,9 @@ border-radius:25px;
 
 .top{
 
-width:170px;
-
 height:60px;
+
+width:170px;
 
 background:#fff0f7;
 
@@ -249,9 +245,9 @@ background:#fff0f7;
 
 .middle{
 
-width:230px;
-
 height:80px;
+
+width:230px;
 
 background:#ff9ecb;
 
@@ -261,9 +257,9 @@ background:#ff9ecb;
 
 .bottom{
 
-width:280px;
-
 height:100px;
+
+width:280px;
 
 background:#ff6fa8;
 
@@ -286,8 +282,17 @@ border-radius:
 
 
 
+/* BUTTONS */
 
-/* BUTTON */
+
+button{
+
+font-family:Arial;
+
+cursor:pointer;
+
+}
+
 
 
 #play{
@@ -295,14 +300,11 @@ border-radius:
 
 margin-top:15px;
 
-padding:
-
-18px 30px;
-
-
 font-size:22px;
 
-border:0;
+padding:18px 35px;
+
+border:none;
 
 border-radius:50px;
 
@@ -310,22 +312,56 @@ background:#ff4081;
 
 color:white;
 
-position:relative;
+box-shadow:
 
-z-index:50;
+0 0 25px pink;
 
 }
 
 
 
-/* MUSIC */
+.controls{
+
+display:flex;
+
+justify-content:center;
+
+gap:20px;
+
+margin-top:20px;
+
+}
+
+
+
+.controls button{
+
+
+font-size:18px;
+
+padding:14px 25px;
+
+border-radius:40px;
+
+border:none;
+
+background:white;
+
+box-shadow:
+
+0 5px 15px rgba(0,0,0,.25);
+
+}
+
+
+
+
+/* AGE BAR */
 
 
 .music{
 
-position:relative;
-
-z-index:100;
+margin-top:15px;
 
 }
 
@@ -347,19 +383,20 @@ text-shadow:
 
 
 
+
 .progress{
 
 height:22px;
 
 background:white;
 
+width:90%;
+
+margin:10px auto;
+
 border-radius:20px;
 
 overflow:hidden;
-
-margin:15px auto;
-
-width:90%;
 
 }
 
@@ -383,55 +420,6 @@ linear-gradient(
 }
 
 
-
-.presents{
-
-display:flex;
-
-justify-content:center;
-
-gap:30px;
-
-}
-
-
-
-.presents button{
-
-width:80px;
-
-height:80px;
-
-font-size:40px;
-
-border:0;
-
-border-radius:20px;
-
-z-index:200;
-
-position:relative;
-
-box-shadow:
-
-0 5px 15px rgba(0,0,0,.3);
-
-}
-
-
-
-#pause{
-
-background:#2196f3;
-
-}
-
-
-#resume{
-
-background:#4caf50;
-
-}
 
 
 
@@ -460,7 +448,6 @@ from{
 transform:
 
 translateY(110vh)
-
 rotate(-10deg);
 
 }
@@ -471,13 +458,12 @@ to{
 transform:
 
 translateY(-150px)
-
 rotate(10deg);
 
 }
 
-
 }
+
 
 
 
@@ -513,6 +499,9 @@ transform:scale(1.5);
 }
 
 
+
+
+/* VISUALIZER */
 
 
 #visualizer{
