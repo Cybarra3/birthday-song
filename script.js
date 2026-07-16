@@ -14,33 +14,31 @@ const resume =
 document.getElementById("resume");
 
 
-const progress =
-document.getElementById("progress");
-
-
 const age =
 document.getElementById("age");
 
 
+const progress =
+document.getElementById("progress");
+
+
 
 let visualStarted=false;
+
+let fireworksStarted=false;
 
 
 
 play.onclick=()=>{
 
 
-song.currentTime=0;
-
-
 song.play();
-
 
 
 document
 .querySelectorAll(".flame")
-.forEach(
-f=>f.classList.add("lit")
+.forEach(f=>
+f.classList.add("lit")
 );
 
 
@@ -49,15 +47,23 @@ createBalloons();
 
 createSparkles();
 
+
+
+if(!fireworksStarted){
+
+fireworksStarted=true;
+
 startFireworks();
+
+}
 
 
 
 if(!visualStarted){
 
-startVisualizer();
-
 visualStarted=true;
+
+startVisualizer();
 
 }
 
@@ -66,28 +72,14 @@ visualStarted=true;
 
 
 
-
-pause.onclick=()=>{
-
-song.pause();
-
-};
+pause.onclick=()=>song.pause();
 
 
-
-resume.onclick=()=>{
-
-song.play();
-
-};
+resume.onclick=()=>song.play();
 
 
 
 
-
-
-
-// AGE PROGRESS
 
 
 song.addEventListener(
@@ -95,30 +87,19 @@ song.addEventListener(
 ()=>{
 
 
-if(song.duration){
-
-
 let percent=
-
 (song.currentTime/song.duration)*100;
 
 
-
 progress.style.width=
-
 percent+"%";
 
 
-
 age.innerHTML=
-
 Math.floor(
 percent/100*41
 );
 
-
-
-}
 
 });
 
@@ -127,8 +108,44 @@ percent/100*41
 
 
 
+song.addEventListener(
+"ended",
+()=>{
 
-// BALLOONS
+
+age.innerHTML="41";
+
+
+progress.style.width="100%";
+
+
+
+document
+.querySelectorAll(".flame")
+.forEach(f=>
+f.classList.remove("lit")
+);
+
+
+
+document
+.getElementById("finale")
+.classList.add("show");
+
+
+
+megaFireworks();
+
+createConfetti();
+
+
+
+});
+
+
+
+
+
 
 
 function createBalloons(){
@@ -147,15 +164,11 @@ b.innerHTML="🎈";
 
 
 b.style.left=
-
 Math.random()*100+"vw";
 
 
 b.style.animationDuration=
-
-6+
-Math.random()*8+
-"s";
+(6+Math.random()*6)+"s";
 
 
 document
@@ -172,11 +185,6 @@ document
 
 
 
-
-
-// SPARKLES
-
-
 function createSparkles(){
 
 
@@ -188,17 +196,14 @@ let s=document.createElement("div");
 
 s.className="sparkle";
 
-
 s.innerHTML="✨";
 
 
 s.style.left=
-
 Math.random()*100+"vw";
 
 
 s.style.top=
-
 Math.random()*100+"vh";
 
 
@@ -209,16 +214,11 @@ document
 
 }
 
-
 }
 
 
 
 
-
-
-
-// FIREWORKS
 
 
 const canvas=
@@ -230,12 +230,9 @@ canvas.getContext("2d");
 
 
 
-canvas.width=
-innerWidth;
+canvas.width=innerWidth;
 
-
-canvas.height=
-innerHeight;
+canvas.height=innerHeight;
 
 
 
@@ -243,10 +240,27 @@ let particles=[];
 
 
 
+
 function startFireworks(){
 
 
 setInterval(()=>{
+
+
+burst();
+
+
+},1500);
+
+
+animate();
+
+
+}
+
+
+
+function burst(){
 
 
 let x=
@@ -258,7 +272,7 @@ Math.random()*300;
 
 
 
-for(let i=0;i<40;i++){
+for(let i=0;i<50;i++){
 
 
 particles.push({
@@ -267,23 +281,35 @@ x:x,
 
 y:y,
 
-dx:(Math.random()-.5)*6,
+dx:(Math.random()-.5)*8,
 
-dy:(Math.random()-.5)*6,
+dy:(Math.random()-.5)*8,
 
-life:80
+life:100
 
 });
 
 
 }
 
-
-},1500);
-
+}
 
 
-animate();
+
+
+function megaFireworks(){
+
+
+for(let i=0;i<8;i++){
+
+
+setTimeout(
+burst,
+i*400
+);
+
+
+}
 
 }
 
@@ -305,15 +331,14 @@ canvas.height
 particles.forEach(p=>{
 
 
-ctx.fillStyle=
-"hsl("+Math.random()*360+",100%,50%)";
+ctx.fillStyle="yellow";
 
 
 ctx.fillRect(
 p.x,
 p.y,
-3,
-3
+4,
+4
 );
 
 
@@ -329,7 +354,6 @@ p.life--;
 
 
 particles=
-
 particles.filter(
 p=>p.life>0
 );
@@ -349,27 +373,60 @@ animate
 
 
 
-// VISUALIZER
+function createConfetti(){
+
+
+for(let i=0;i<200;i++){
+
+
+let c=document.createElement("div");
+
+
+c.className="confetti";
+
+
+c.style.left=
+Math.random()*100+"vw";
+
+
+c.style.background=
+"hsl("+Math.random()*360+",100%,50%)";
+
+
+c.style.animationDuration=
+(3+Math.random()*4)+"s";
+
+
+document
+.getElementById("confetti")
+.appendChild(c);
+
+
+}
+
+
+}
+
+
+
 
 
 function startVisualizer(){
 
 
-let audio =
+let audio=
 new AudioContext();
 
 
-let analyser =
+let analyser=
 audio.createAnalyser();
 
 
-let source =
+let source=
 audio.createMediaElementSource(song);
 
 
-
 source.connect(analyser);
-
 
 analyser.connect(
 audio.destination
@@ -377,14 +434,14 @@ audio.destination
 
 
 
-let data =
+let data=
 new Uint8Array(
 analyser.frequencyBinCount
 );
 
 
 
-let box =
+let box=
 document.getElementById("visualizer");
 
 
@@ -392,12 +449,9 @@ document.getElementById("visualizer");
 for(let i=0;i<30;i++){
 
 
-let bar =
-document.createElement("div");
-
+let bar=document.createElement("div");
 
 bar.className="bar";
-
 
 box.appendChild(bar);
 
@@ -415,15 +469,14 @@ analyser.getByteFrequencyData(data);
 
 document
 .querySelectorAll(".bar")
-.forEach((bar,i)=>{
+.forEach((b,i)=>{
 
 
-bar.style.height =
+b.style.height=
 data[i]+"px";
 
 
 });
-
 
 
 requestAnimationFrame(draw);
